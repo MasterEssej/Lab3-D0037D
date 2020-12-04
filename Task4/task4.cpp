@@ -1,12 +1,12 @@
 #include <iostream>
 using namespace std;
 
-void swap_sort(int *a, int *b, int *c, bool order) {
+void swap_sort(int** a, int** b, int** c, bool order) {
 
 	int hold;
 	int n = 3;
 
-	int array1[] = { *a, *b, *c };
+	int array1[] = { **a, **b, **c };
 
 	if (order) {
 		for (int i = 0; i < n; i++) {
@@ -31,9 +31,9 @@ void swap_sort(int *a, int *b, int *c, bool order) {
 		}
 	}
 
-	*a = array1[0];
-	*b = array1[1];
-	*c = array1[2];
+	**a = array1[0];
+	**b = array1[1];
+	**c = array1[2];
 	cout << endl;
 }
 
@@ -43,6 +43,12 @@ int main() {
 	int a, b, c;
 
 	bool order;
+
+	//test
+	int d = 7, e = 6, f = 1;
+	int* p1 = &d, * p2 = &e, * p3 = &f;
+	swap_sort(&p1, &p2, &p3, true);
+	cout << *p1 << " " << *p2 << " " << *p3 << "\n" << endl;
 
 	while (true) {
 
@@ -68,7 +74,7 @@ int main() {
 		int* num2 = &b;
 		int* num3 = &c;
 
-		swap_sort(num1, num2, num3, order);
+		swap_sort(&num1, &num2, &num3, order);
 
 		cout << *num1 << " " << *num2 << " " << *num3 << endl;
 
