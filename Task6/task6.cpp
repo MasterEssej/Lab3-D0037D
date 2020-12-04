@@ -113,20 +113,65 @@ void quit(bool& mquit) {
 	mquit = false;
 }
 
-void save(const vector<string>* temp)
+int save(const vector<string>* temp)
 {
 	string fname;
 	ofstream f;
+	cout << "Save (write \"q\" to quit)" << endl;
 	cout << "Filename: ";
 	cin >> fname;
-	fname += ".txt";
-	f.open(fname);
-	for (int i = 0; i < temp->size(); i++)
+	if (fname != "q")
 	{
-		f << temp->at(i) << endl;
+		fname += ".txt";
+		f.open(fname);
+		for (int i = 0; i < temp->size(); i++)
+		{
+			f << temp->at(i) << endl;
+		}
+		f.close();
+		cout << "File saved" << endl;
 	}
-	f.close();
-	cout << "File saved" << endl;
+	else
+	{
+		return 0;
+	}
+	return 0;
+}
+
+int load(vector<string>* temp)
+{
+	string fname;
+	ifstream f;
+	cout << "Load (write \"q\" to quit)" << endl;
+	cout << "Filename: ";
+	cin >> fname;
+	if (fname != "q")
+	{
+		temp->clear();
+		fname += ".txt";
+		f.open(fname);
+		string data;
+		getline(f, data);
+		if (data == "")
+		{
+			cout << "File does not exist or is empty" << endl;
+			return 0;
+		}
+		f.clear();
+		f.seekg(0);
+		while (getline(f, data))
+		{
+			temp->push_back(data);
+		}
+		f.close();
+		cout << "File loaded" << endl;
+	}
+	else
+	{
+		return 0;
+	}
+	
+	return 0;
 }
 
 int main() {
@@ -141,7 +186,7 @@ int main() {
 		int choice;
 
 		cout << "MENU (choose by number)\n" << endl;
-		cout << "1. Initialise database\n2. Insert\n3. Search\n4. Delete\n5. Print\n6. Save\n7. Quit" << endl;
+		cout << "1. Initialise database\n2. Insert\n3. Search\n4. Delete\n5. Print\n6. Save\n7. Load\n8. Quit" << endl;
 		cin >> choice;
 
 		if (1 <= choice <= 6) {
@@ -167,13 +212,16 @@ int main() {
 			save(p);
 			break;
 		case 7:
+			load(p);
+			break;
+		case 8:
 			quit(menu);
 			break;
 		default:
 			cout << "That is not an option." << endl;
 		}
 
-		if (choice != 7) {
+		if (choice != 8) {
 			system("pause");
 		}
 		system("cls");
